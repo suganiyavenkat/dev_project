@@ -7,12 +7,6 @@ node{
       sh "${mvnHome}/bin/mvn clean package"
 	  sh 'mv target/myweb*.war target/newapp.war'
    }
-   stage('SONARQUBE ANALYSIS') {
-	        def mvnHome =  tool name: 'maven3', type: 'maven'
-	        withSonarQubeEnv('sonar') { 
-	          sh "${mvnHome}/bin/mvn sonar:sonar"
-	        }
-	    }
       stage('DOCKER IMAGE BUILD'){
    sh 'docker build -t sundaramwild/myweb:0.0.5 .'
    }
@@ -22,11 +16,6 @@ node{
     }
    sh 'docker push sundaramwild/myweb:0.0.5'
    }
-     stage('NEXUS ARTIFACTORY'){
-   sh "docker login -u admin -p nexus456 54.255.169.137:8083"
-   sh "docker tag vm2322/myweb:0.0.2 54.255.169.137:8083/vivek:1.0.0"
-   sh 'docker push 54.255.169.137:8083/vivek:1.0.0'
-   }
       stage('REMOVE PREVIOUS CONTAINER'){
 	try{
 		sh 'docker rm -f tomcattest'
@@ -34,7 +23,7 @@ node{
 		//  do nothing if there is an exception
 	}
    stage('DOCKER DEPLOYMENT'){
-   sh 'docker run -d -p 8090:8080 --name tomcattest sundaramwild/myweb:0.0.2' 
+   sh 'docker run -d -p 8090:8080 --name tomcattest sundaramwild/myweb-0.0.5' 
    }
 }
 }
