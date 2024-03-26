@@ -14,13 +14,13 @@ node{
 	        }
 	    }
       stage('DOCKER IMAGE BUILD'){
-   sh 'docker build -t vm2322/myweb:0.0.2 .'
+   sh 'docker build -t sundaramwild/myweb:0.0.5 .'
    }
       stage('DOCKERHUB PUSH'){
    withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')]) {
-   sh "docker login -u vm2322 -p ${dockerPassword}"
+   sh "docker login -u sundaramwild -p ${dockerPassword}"
     }
-   sh 'docker push vm2322/myweb:0.0.2'
+   sh 'docker push sundaramwild/myweb:0.0.5'
    }
      stage('NEXUS ARTIFACTORY'){
    sh "docker login -u admin -p nexus456 54.255.169.137:8083"
