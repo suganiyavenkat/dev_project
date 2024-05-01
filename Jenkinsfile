@@ -8,13 +8,13 @@ node{
 	  sh 'mv target/myweb*.war target/newapp.war'
    }
       stage('DOCKER IMAGE BUILD'){
-   sh 'docker build -t sundaramwild/myweb:0.0.5 .'
+   sh 'docker build -t suganiya/myweb:0.0.5 .'
    }
       stage('DOCKERHUB PUSH'){
    withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')]) {
-   sh "docker login -u sundaramwild -p ${dockerPassword}"
+   sh "docker login -u suganiya987 -p ${dockerPassword}"
     }
-   sh 'docker push sundaramwild/myweb:0.0.5'
+   sh 'docker push suganiya/myweb:0.0.5'
    }
       stage('REMOVE PREVIOUS CONTAINER'){
 	try{
